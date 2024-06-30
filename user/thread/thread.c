@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 void *
-thr_fn(void *arg)
+fn(void *arg)
 {
   pid_t pid;
   pthread_t tid;
@@ -33,7 +33,7 @@ main(int args, char *argv[])
    * 스레드 분기 지점.
    * 4번 인자는 반드시 힙 영역 메모리 혹은 데이터 영역 메모리.
    */
-  pthread_create(&tid, NULL, thr_fn, (void *)tname);
+  pthread_create(&tid, NULL, fn, (void *)tname);
 
   printf("메인 스레드(%lu) 종료.\n", (unsigned long)pthread_self());
   pthread_exit(NULL);

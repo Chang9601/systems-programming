@@ -7,7 +7,7 @@
 #define BUF_SZ 15
 
 void *
-thr_fn(void *arg)
+fn(void *arg)
 {
   pthread_t tid;
   int time, cnt;
@@ -46,7 +46,7 @@ make_thread(int arg)
   *time = arg;
 
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-  pthread_create(&tid, &attr, thr_fn, (void *)time);
+  pthread_create(&tid, &attr, fn, (void *)time);
 
   pthread_attr_destroy(&attr);
 

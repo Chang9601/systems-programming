@@ -3,9 +3,9 @@ CFLAGS=-g -Wall -Wshadow -Wvla -Werror -pedantic -Wno-unused-function
 DEBUG=gdb
 TOOL=valgrind
 LDFLAGS=-lpthread
-SRC=mutex.c
-OBJ=mutex.o
-EXE=mutex
+SRC=server.c
+OBJ=server.o
+EXE=server
 
 all: $(EXE)
 
