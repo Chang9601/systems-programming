@@ -8,13 +8,13 @@
 
 #define UNIX_SOCK_NAME "/tmp/unix_socket"
 #define BUF_SZ 128
-#define BACKLOG 20
+#define QUE_SZ 20
 
 int
 main(int argc, char *argv[])
 {
   struct sockaddr_un un;
-  int ret, len, n, data, listen_sock_fd, cli_sock_fd;
+  int out, len, n, data, listen_sock_fd, cli_sock_fd;
   char buf[BUF_SZ];
 
   /* UNIX 도메인 소켓이 존재하는 경우.*/
@@ -24,8 +24,6 @@ main(int argc, char *argv[])
     perror("socket()");
     exit(EXIT_FAILURE);
   }
-
-  printf("socket() 함수 호출.\n");
 
   memset(&un, 0, sizeof(un));
   un.sun_family = AF_UNIX;
@@ -38,14 +36,10 @@ main(int argc, char *argv[])
     exit(EXIT_FAILURE);
   }
 
-  printf("bind() 함수 호출.\n");
-
-  if (listen(listen_sock_fd, BACKLOG) < 0) {
+  if (listen(listen_sock_fd, QUE_SZ) < 0) {
     perror("listen()");
     exit(EXIT_FAILURE);
   }
-
-  printf("listen() 함수 호출.\n");
 
   for (;;) {
     printf("클라이언트 연결 대기 중...\n");
@@ -57,7 +51,7 @@ main(int argc, char *argv[])
 
     printf("클라이언트 연결.\n");
 
-    ret = 0;
+    out = 0;
     for (;;) {
       memset(buf, 0, BUF_SZ);
 
@@ -71,11 +65,11 @@ main(int argc, char *argv[])
 
       if (data == 0)
         break;
-      ret += data;
+      out += data;
     }
 
     memset(buf, 0, BUF_SZ);
-    sprintf(buf, "결과: %d", ret);
+    sprintf(buf, "반환값: %d", out);
 
     printf("클라이언트에게 데이터 전송\n");
 
@@ -88,7 +82,7 @@ main(int argc, char *argv[])
   }
 
   close(listen_sock_fd);
-  printf("서버 소켓 종료.\n");
+  printf("서버 종료.\n");
 
   exit(EXIT_SUCCESS);
 }
