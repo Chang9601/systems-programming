@@ -91,7 +91,7 @@ main(int argc, char *argv[])
 
   unlink(UNIX_SOCK_NAME);
 
-  if ((listen_sock_fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
+  if ((listen_sock_fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
     perror("socket()");
     exit(EXIT_FAILURE);
   }
@@ -101,12 +101,12 @@ main(int argc, char *argv[])
   strncpy(un.sun_path, UNIX_SOCK_NAME, sizeof(un.sun_path) - 1);
   len = offsetof(struct sockaddr_un, sun_path) + strlen(UNIX_SOCK_NAME);
 
-  if (bind(listen_sock_fd, (struct sockaddr *)&un, len) < 0) {
+  if (bind(listen_sock_fd, (struct sockaddr *)&un, len) == -1) {
     perror("bind()");
     exit(EXIT_FAILURE);
   }
 
-  if (listen(listen_sock_fd, QUE_SZ) < 0) {
+  if (listen(listen_sock_fd, QUE_SZ) == -1) {
     perror("listen()");
     exit(EXIT_FAILURE);
   }
@@ -121,7 +121,7 @@ main(int argc, char *argv[])
     select(get_max_sock_fd() + 1, &read_fds, NULL, NULL, NULL);
 
     if (FD_ISSET(listen_sock_fd, &read_fds)) {
-      if ((cli_sock_fd = accept(listen_sock_fd, NULL, NULL)) < 0) {
+      if ((cli_sock_fd = accept(listen_sock_fd, NULL, NULL)) == -1) {
         perror("accept()");
         exit(EXIT_FAILURE);
       };
@@ -138,7 +138,7 @@ main(int argc, char *argv[])
 
           memset(buf, 0, BUF_SZ);
 
-          if ((n = read(cli_sock_fd, buf, BUF_SZ)) < 0) {
+          if ((n = read(cli_sock_fd, buf, BUF_SZ)) == -1) {
             perror("read()");
             exit(EXIT_FAILURE);
           };
@@ -150,7 +150,7 @@ main(int argc, char *argv[])
             memset(buf, 0, BUF_SZ);
             sprintf(buf, "반환값: %d", outs[i]);
 
-            if ((n = write(cli_sock_fd, buf, BUF_SZ)) < 0) {
+            if ((n = write(cli_sock_fd, buf, BUF_SZ)) == -1) {
               perror("write");
               exit(EXIT_FAILURE);
             }

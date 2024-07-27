@@ -14,7 +14,7 @@
 #include <pthread.h>
 #include <errno.h>
 
-#define MAX_BUF_SZ 1024
+#define BUF_SZ 1024
 
 /*
  * 1번 인자: 수신 메시지.

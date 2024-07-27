@@ -7,7 +7,8 @@ struct pkt {
 };
 
 void
-mem_cleanup(void *arg) {
+mem_cleanup(void *arg) 
+{
   printf("%s...\n", __func__);
 
   free(arg);
@@ -16,7 +17,8 @@ mem_cleanup(void *arg) {
 }
 
 void
-sock_cleanup(void *arg) {
+sock_cleanup(void *arg) 
+{
   printf("%s...\n", __func__);
 
   int sock_fd = *(int *)arg;
@@ -27,7 +29,8 @@ sock_cleanup(void *arg) {
 }
 
 static void *
-_init_serv(void *arg) {
+_init_serv(void *arg) 
+{
   struct pkt *pkt; 
   char addr[16], *buf;
   uint32_t port;
@@ -47,7 +50,7 @@ _init_serv(void *arg) {
   free(pkt);
   pkt = NULL;
 
-  if ((sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
+  if ((sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
     printf("소켓 생성 실패, errno = %d\n", errno);
     
     pthread_exit((void *)-1);
@@ -59,22 +62,22 @@ _init_serv(void *arg) {
   serv.sin_port = port;
   serv.sin_addr.s_addr = INADDR_ANY;
 
-  if (bind(sock_fd, (struct sockaddr *)&serv, sizeof(serv)) < 0) {
+  if (bind(sock_fd, (struct sockaddr *)&serv, sizeof(serv)) == -1) {
     printf("소켓 바인딩 실패, errno = %d\n", errno);
     
     pthread_exit((void *)-2);
   }
 
-  buf = calloc(1, MAX_BUF_SZ);
+  buf = calloc(1, BUF_SZ);
   n = 0;
   addr_len = sizeof(cli);
 
   pthread_cleanup_push(mem_cleanup, (void *)buf);
 
   while (true) {
-    memset(buf, 0, MAX_BUF_SZ);
+    memset(buf, 0, BUF_SZ);
 
-    n = recvfrom(sock_fd, buf, MAX_BUF_SZ, 0, (struct sockaddr *)&cli, &addr_len);
+    n = recvfrom(sock_fd, buf, BUF_SZ, 0, (struct sockaddr *)&cli, &addr_len);
 
     /* 호스트 바이트 순서로 된 IP 주소를 네트워크 바이트 순서로 변환한 후 문자열 형식으로 변환한다. */
     fn(buf, n, ntop(htonl(cli.sin_addr.s_addr), 0), cli.sin_port);
@@ -90,7 +93,8 @@ _init_serv(void *arg) {
 }
 
 pthread_t *
-init_serv(char *addr, uint32_t port, recv_fn fn) {
+init_serv(char *addr, uint32_t port, recv_fn fn) 
+{
   pthread_attr_t attr;
   pthread_t *tid;
   struct pkt *pkt;
@@ -113,7 +117,8 @@ init_serv(char *addr, uint32_t port, recv_fn fn) {
 }
 
 int
-send_msg(char *addr, uint32_t port, char *msg, uint32_t msg_len) {
+send_msg(char *addr, uint32_t port, char *msg, uint32_t msg_len) 
+{
   struct sockaddr_in in;
   struct hostent *host;
   int sock_fd, n;
@@ -125,7 +130,7 @@ send_msg(char *addr, uint32_t port, char *msg, uint32_t msg_len) {
   /* h_addr은 hostent 구조체의 필드로, h_addr_list의 첫 번째 IP 주소를 가진다. */
   in.sin_addr = *((struct in_addr *)host->h_addr);
 
-  if ((sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
+  if ((sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
     printf("소켓 생성 실패, errno = %d\n", errno);
 
     return -1;
@@ -138,7 +143,8 @@ send_msg(char *addr, uint32_t port, char *msg, uint32_t msg_len) {
 }
 
 char *
-ntop(uint32_t addr, char *buf) {
+ntop(uint32_t addr, char *buf) 
+{
   static char ip[16];
   char *out;
 

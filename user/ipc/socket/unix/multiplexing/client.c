@@ -16,7 +16,7 @@ main(int argc, char *argv[])
   int len, n, num, sock_fd;
   char buf[BUF_SZ];
 
-  if ((sock_fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
+  if ((sock_fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
     perror("socket()");
     exit(EXIT_FAILURE);
   }
@@ -26,7 +26,7 @@ main(int argc, char *argv[])
   strncpy(un.sun_path, UNIX_SOCK_NAME, sizeof(un.sun_path) - 1);
   len = offsetof(struct sockaddr_un, sun_path) + strlen(UNIX_SOCK_NAME);
 
-  if (connect(sock_fd, (struct sockaddr *)&un, len) < 0) {
+  if (connect(sock_fd, (struct sockaddr *)&un, len) == -1) {
     perror("connect()");
     exit(EXIT_FAILURE);
   }
@@ -35,7 +35,7 @@ main(int argc, char *argv[])
     printf("서버에 전송할 데이터: ");
     scanf("%d", &num);
     
-    if ((n = write(sock_fd, &num, sizeof(num))) < 0) {
+    if ((n = write(sock_fd, &num, sizeof(num))) == -1) {
       perror("write()");
       break;
     }
@@ -44,7 +44,7 @@ main(int argc, char *argv[])
   } while (num);
 
   memset(buf, 0, BUF_SZ);
-  if ((n = read(sock_fd, buf, BUF_SZ)) < 0) {
+  if ((n = read(sock_fd, buf, BUF_SZ)) == -1) {
     perror("read()");
     exit(EXIT_FAILURE);
   }
