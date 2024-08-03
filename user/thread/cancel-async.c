@@ -5,8 +5,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
-#define N_THR 5
-#define BUF_SZ 64
+#define N_THR   5
+#define BUF_SZ  64
 #define FILE_SZ 64
 
 void *

@@ -8,6 +8,7 @@
 int
 main(int argc, char *argv[])
 {
+  int flags;
   char buf[BUF_SZ];
   mqd_t mqd;
 
@@ -20,7 +21,8 @@ main(int argc, char *argv[])
   printf("송신할 메시지: ");
   scanf("%s", buf);
 
-  if ((mqd = mq_open(argv[1], O_CREAT | O_WRONLY, 0, 0)) == -1) {
+  flags = O_CREAT | O_WRONLY;
+  if ((mqd = mq_open(argv[1], flags, NULL, NULL)) == -1) {
     fputs("mq_open()\n", stderr);
     exit(EXIT_FAILURE);
   }

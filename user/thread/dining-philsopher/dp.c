@@ -5,8 +5,8 @@
 #include <unistd.h>
 #include "dp.h"
 
-#define N_PHIL 5
-#define N_SP 5
+#define N_PHIL  5
+#define N_SP    5
 
 struct phil phils[N_PHIL];
 struct sp sps[N_SP];

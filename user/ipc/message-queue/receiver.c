@@ -5,13 +5,14 @@
 #include <mqueue.h>
 #include <sys/select.h>
 
-#define MSG_N 10
-#define MSG_SZ 256
-#define BUF_SZ (MSG_SZ + 10)
+#define MSG_N   10
+#define MSG_SZ  256
+#define BUF_SZ  (MSG_SZ + 10)
 
 int
 main(int argc, char *argv[])
 {
+  int flags;
   fd_set read_fds;
   char buf[BUF_SZ];
   mqd_t mqd;
@@ -28,8 +29,9 @@ main(int argc, char *argv[])
   attr.mq_maxmsg = MSG_N;
   attr.mq_msgsize = MSG_SZ;
   attr.mq_curmsgs = 0;
+  flags = O_CREAT | O_RDONLY;
 
-  if ((mqd = mq_open(argv[1], O_CREAT | O_RDONLY, perms, &attr)) == -1) {
+  if ((mqd = mq_open(argv[1], flags, perms, &attr)) == -1) {
     fputs("mq_open()\n", stderr);
     exit(EXIT_FAILURE);
   }

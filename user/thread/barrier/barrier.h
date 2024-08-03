@@ -1,5 +1,5 @@
-#ifndef _THR_BARRIER
-#define _THR_BARRIER
+#ifndef _THR_BARRIER_H
+#define _THR_BARRIER_H
 
 #include <stdio.h>
 #include <stdint.h>

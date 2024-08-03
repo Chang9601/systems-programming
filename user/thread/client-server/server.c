@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "udp.h"
 
-#define HOST "localhost"
-#define PORT_1 3000
-#define PORT_2 4000
+#define HOST    "localhost"
+#define PORT_1  3000
+#define PORT_2  4000
 
 void
 recv_pkt(char *pkt, uint32_t pkt_size, char *addr, uint32_t port) 

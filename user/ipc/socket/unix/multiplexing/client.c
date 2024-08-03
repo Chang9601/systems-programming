@@ -6,8 +6,8 @@
 #include <stddef.h>
 #include <unistd.h>
 
-#define UNIX_SOCK_NAME "/tmp/unix_socket"
-#define BUF_SZ 128
+#define UNIX_SOCK_NAME  "/tmp/unix_socket"
+#define BUF_SZ          128
 
 int
 main(int argc, char *argv[])

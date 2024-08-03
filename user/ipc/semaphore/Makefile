@@ -3,9 +3,9 @@ CFLAGS=-g -Wall -Wshadow -Wvla -Werror -pedantic -Wno-unused-function
 DEBUG=gdb
 TOOL=valgrind
 LDFLAGS=-lpthread
-SRC=sender.c
-OBJ=sender.o
-EXE=sender
+SRC=sem.c
+OBJ=sem.o
+EXE=sem
 
 all: $(EXE)
 

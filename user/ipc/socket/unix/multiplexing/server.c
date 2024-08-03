@@ -7,10 +7,10 @@
 #include <stddef.h>
 #include <unistd.h>
 
-#define UNIX_SOCK_NAME "/tmp/unix_socket"
-#define BUF_SZ 128
-#define QUE_SZ 20
-#define MAX_CLI_SZ 32
+#define UNIX_SOCK_NAME  "/tmp/unix_socket"
+#define BUF_SZ          128
+#define QUE_SZ          20
+#define MAX_CLI_SZ      32
 
 int sock_fds[MAX_CLI_SZ];
 int outs[MAX_CLI_SZ] = {0};
