@@ -19,8 +19,8 @@ main(int argc, char *argv[])
   mode_t perms;
   struct mq_attr attr;
 
-  if (argc <= 1) {
-    fputs("메시지 큐 이름(형식: </mq-name>)\n", stderr);
+  if (argc != 2) {
+    fputs("사용법: /<메시지 큐 이름>\n", stderr);
     exit(EXIT_FAILURE);
   }
 
