@@ -6,6 +6,53 @@
 #include <unistd.h>
 #include "ev-loop.h"
 
+static struct task *
+get_nxt_task(struct ev_loop *loop)
+{
+  struct task *task;
+
+  if (!loop->task_array_head)
+    return NULL;
+
+  task = loop->task_array_head;
+  loop->task_array_head = task->right;
+
+  if (loop->task_array_head)
+    loop->task_array_head->left = NULL;
+
+  task->left = task->right = NULL;
+
+  return task;
+}
+
+static void
+add_task(struct ev_loop *loop, struct task *task)
+{
+  struct task *cur_task, *pre_task;
+
+  pre_task = NULL;
+
+  cur_task = loop->task_array_head;
+
+  while (cur_task) {
+    pre_task = cur_task;
+    cur_task = cur_task->right;
+  }
+
+  if (pre_task) {
+    pre_task->right = task;
+    task->left = pre_task;
+  } else {
+    loop->task_array_head = task;
+  }
+}
+
+static bool
+is_task_present(struct task *task)
+{
+  return !(!task->left && !task->right);
+}
+
 void
 init_ev_loop(struct ev_loop *loop) 
 {
