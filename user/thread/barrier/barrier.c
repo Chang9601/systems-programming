@@ -1,7 +1,7 @@
 #include "barrier.h"
 
 void
-init_thr_barrier(struct thr_barrier *barrier, uint32_t threshold_cnt)
+thr_barrier_init(struct thr_barrier *barrier, uint32_t threshold_cnt)
 {
   barrier->threshold_cnt = threshold_cnt;
   barrier->curr_wait_cnt = 0;
@@ -13,16 +13,15 @@ init_thr_barrier(struct thr_barrier *barrier, uint32_t threshold_cnt)
 }
 
 void
-destroy_thr_barrier(struct thr_barrier *barrier)
+thr_barrier_destroy(struct thr_barrier *barrier)
 {
-
   pthread_mutex_destroy(&barrier->mutex);
   pthread_cond_destroy(&barrier->cv);
   pthread_cond_destroy(&barrier->busy_cv);
 }
 
 void
-wait_thr_barrier(struct thr_barrier *barrier)
+thr_barrier_wait(struct thr_barrier *barrier)
 {
   pthread_mutex_lock(&barrier->mutex);
 
@@ -79,7 +78,7 @@ wait_thr_barrier(struct thr_barrier *barrier)
 }
 
 void
-print_thr_barrier(struct thr_barrier *barrier)
+thr_barrier_print(struct thr_barrier *barrier)
 {
   printf("임계치 개수: %u\n", barrier->threshold_cnt);
   printf("현재 대기 개수: %u\n", barrier->curr_wait_cnt);

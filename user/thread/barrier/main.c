@@ -18,14 +18,14 @@ fn(void *arg)
    * 모든 스레드가 스레드 장벽에 대기된다.
    * 즉, 스레드가 모두 스레드 장벽 지점에 도달할 때까지 대기된다.
    */
-  wait_thr_barrier(&barrier);
+  thr_barrier_wait(&barrier);
   /* 대기된 스레드의 개수만큼 출력문이 출력된다. */
   printf("%s가 1번 스레드 장벽을 지나간다.\n", tname);
 
-  wait_thr_barrier(&barrier);
+  thr_barrier_wait(&barrier);
   printf("%s가 2번 스레드 장벽을 지나간다.\n", tname);
 
-  wait_thr_barrier(&barrier);
+  thr_barrier_wait(&barrier);
   printf("%s가 3번 스레드 장벽을 지나간다.\n", tname);
 
   return NULL;
@@ -38,7 +38,7 @@ main(int argc, char *argv[])
   const char *tname2 = "스레드2";
   const char *tname3 = "스레드3";
 
-  init_thr_barrier(&barrier, 3);
+  thr_barrier_init(&barrier, 3);
 
 	pthread_create(&tids[0], NULL, fn, (void *)tname1);
 	pthread_create(&tids[1], NULL, fn, (void *)tname2);
@@ -48,7 +48,8 @@ main(int argc, char *argv[])
   pthread_join(tids[1], NULL);
   pthread_join(tids[2], NULL);
 
-  print_thr_barrier(&barrier);
+  thr_barrier_print(&barrier);
+  thr_barrier_destroy(&barrier);
 
   exit(EXIT_SUCCESS);
 }

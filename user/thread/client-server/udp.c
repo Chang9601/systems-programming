@@ -19,9 +19,11 @@ mem_cleanup(void *arg)
 void
 sock_cleanup(void *arg) 
 {
+  int sock_fd;
+
   printf("%s...\n", __func__);
 
-  int sock_fd = *(int *)arg;
+  sock_fd = *(int *)arg;
 
   close(sock_fd);
 
@@ -74,7 +76,7 @@ _init_serv(void *arg)
 
   pthread_cleanup_push(mem_cleanup, (void *)buf);
 
-  while (true) {
+  for (;;) {
     memset(buf, 0, BUF_SZ);
 
     n = recvfrom(sock_fd, buf, BUF_SZ, 0, (struct sockaddr *)&cli, &addr_len);

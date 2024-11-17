@@ -16,15 +16,15 @@ struct thr_barrier {
 };
 
 void
-init_thr_barrier(struct thr_barrier *barrier, uint32_t threshold_cnt);
+thr_barrier_init(struct thr_barrier *barrier, uint32_t threshold_cnt);
 
 void
-wait_thr_barrier(struct thr_barrier *barrier);
+thr_barrier_wait(struct thr_barrier *barrier);
 
 void
-destroy_thr_barrier(struct thr_barrier *barrier);
+thr_barrier_destroy(struct thr_barrier *barrier);
 
 void
-print_thr_barrier(struct thr_barrier *barrier);
+thr_barrier_print(struct thr_barrier *barrier);
 
 #endif

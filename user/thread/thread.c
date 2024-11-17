@@ -4,24 +4,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
-void *
-fn(void *arg)
-{
-  pid_t pid;
-  pthread_t tid;
-  char *tname;
-
-  pid = getpid();
-  tid = pthread_self();
-  tname = (char *)arg;
-
-  while (true) {
-    printf("프로세스 아이디: %lu\t스레드 아이디: %lu\t스레드 인자: %s\n", (unsigned long)pid, (unsigned long)tid, tname);
-    sleep(1);
-  }
-
-  return NULL;
-}
+void *fn(void *);
 
 int 
 main(int args, char *argv[])
@@ -39,8 +22,27 @@ main(int args, char *argv[])
   pthread_exit(NULL);
 
   /* 
-   * 해당 코드는 프로세스의 종료에 직접적인 영향을 미치지 않는다. 
+   * 해당 코드는 프로세스의 종료에 영향을 미치지 않는다. 
    * 메인 스레드가 자식 스레드를 생성한 직후에 pthread_exit() 함수를 호출하기 때문이다.
    */
   exit(EXIT_SUCCESS);
+}
+
+void *
+fn(void *arg)
+{
+  pid_t pid;
+  pthread_t tid;
+  char *tname;
+
+  pid = getpid();
+  tid = pthread_self();
+  tname = (char *)arg;
+
+  while (true) {
+    printf("프로세스 아이디: %lu\t스레드 아이디: %lu\t스레드 인자: %s\n", (unsigned long)pid, (unsigned long)tid, tname);
+    sleep(1);
+  }
+
+  return NULL;
 }

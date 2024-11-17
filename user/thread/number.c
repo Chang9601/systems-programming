@@ -5,6 +5,22 @@
 
 int N;
 
+void *fn(void *);
+void num(int );
+
+int
+main(int argc, char *argv[]) 
+{
+  int n;
+
+  n = 1;
+  
+  scanf("%d", &N);
+  num(n);
+  
+  exit(EXIT_SUCCESS);
+}
+
 void *
 fn(void *arg) 
 {
@@ -47,17 +63,4 @@ num(int n)
   pthread_join(tid, NULL);
 
   return;
-}
-
-int
-main(int argc, char *argv[]) 
-{
-  int n;
-
-  n = 1;
-  
-  scanf("%d", &N);
-  num(n);
-  
-  exit(EXIT_SUCCESS);
 }

@@ -7,6 +7,26 @@
 int arr[] = {17, 42, 55, 63, 88};
 pthread_mutex_t mutex;
 
+void *sum_fn(void *);
+void *swap_fn(void *);
+
+int
+main(int args, char *argv[]) 
+{
+  pthread_t tid1, tid2;
+
+  pthread_mutex_init(&mutex, NULL);
+
+  pthread_create(&tid1, NULL, sum_fn, NULL);
+  pthread_create(&tid2, NULL, swap_fn, NULL);
+
+  pthread_mutex_destroy(&mutex);
+
+  pthread_exit(NULL);
+
+  exit(EXIT_SUCCESS);
+}
+
 void *
 sum_fn(void *arg)
 {
@@ -57,21 +77,4 @@ swap_fn(void *arg)
   }
 
   return NULL;
-}
-
-int
-main(int args, char *argv[]) 
-{
-  pthread_t tid1, tid2;
-
-  pthread_mutex_init(&mutex, NULL);
-
-  pthread_create(&tid1, NULL, sum_fn, NULL);
-  pthread_create(&tid2, NULL, swap_fn, NULL);
-
-  pthread_mutex_destroy(&mutex);
-
-  pthread_exit(NULL);
-
-  exit(EXIT_SUCCESS);
 }

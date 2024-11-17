@@ -8,7 +8,7 @@ typedef void (*ev_cb) (void *);
 struct task {
   ev_cb cb;
   void *arg;
-  struct task *left, *right;
+  struct task *pre, *nxt;
 };
 
 enum EV_LOOP_STATE {
@@ -20,11 +20,11 @@ struct ev_loop {
   /* 작업 배열의 시작 */
   struct task *task_array_head;
   /*
-   * 작업 배열에서 상호 배제를 보장하기 위한 뮤텍스 enqueue/deque 작업을 수행한다.
+   * 작업 배열에서 상호 배제를 보장하기 위한 뮤텍스. enqueue/deque 작업을 수행한다.
    * 이벤트 루프 속성을 상호 배타적으로 수정하는데 사용된다.
    */
   pthread_mutex_t mutex;
-  /* 이벤트 루프 스레드를 일시 중단하기 위한 CV */
+  /* 이벤트 루프 스레드를 일시 중단하기 위한 조건 변수 */
   pthread_cond_t cv;
   /* 이벤트 루프 상태 */
   enum EV_LOOP_STATE state;
@@ -38,9 +38,15 @@ struct ev_loop {
 };
 
 void
-init_ev_loop(struct ev_loop *loop);
+ev_loop_init(struct ev_loop *loop);
 
 void
-run_ev_loop(struct ev_loop *loop);
+ev_loop_run(struct ev_loop *loop);
+
+struct task *
+task_create(struct ev_loop *loop, ev_cb cb, void *arg);
+
+void
+task_cancel(struct ev_loop *loop, struct task *task);
 
 #endif
