@@ -13,14 +13,6 @@ thr_barrier_init(struct thr_barrier *barrier, uint32_t threshold_cnt)
 }
 
 void
-thr_barrier_destroy(struct thr_barrier *barrier)
-{
-  pthread_mutex_destroy(&barrier->mutex);
-  pthread_cond_destroy(&barrier->cv);
-  pthread_cond_destroy(&barrier->busy_cv);
-}
-
-void
 thr_barrier_wait(struct thr_barrier *barrier)
 {
   pthread_mutex_lock(&barrier->mutex);
@@ -83,4 +75,12 @@ thr_barrier_print(struct thr_barrier *barrier)
   printf("임계치 개수: %u\n", barrier->threshold_cnt);
   printf("현재 대기 개수: %u\n", barrier->curr_wait_cnt);
   printf("스레드 장벽의 처리 상태: %s\n", barrier->is_ready ? "완료" : "진행");
+}
+
+void
+thr_barrier_destroy(struct thr_barrier *barrier)
+{
+  pthread_mutex_destroy(&barrier->mutex);
+  pthread_cond_destroy(&barrier->cv);
+  pthread_cond_destroy(&barrier->busy_cv);
 }

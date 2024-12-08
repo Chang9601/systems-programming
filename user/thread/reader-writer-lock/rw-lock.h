@@ -25,18 +25,18 @@ struct rw_lock {
 };
 
 void
-init_rw_lock(struct rw_lock *rw_lock);
+rw_lock_init(struct rw_lock *rw_lock);
 
 void
-lock_rd_lock(struct rw_lock *rw_lock);
+rd_lock_lock(struct rw_lock *rw_lock);
 
 void
-lock_wr_lock(struct rw_lock *rw_lock);
+wr_lock_lock(struct rw_lock *rw_lock);
 
 void
-unlock_rw_lock(struct rw_lock *rw_lock);
+rw_lock_unlock(struct rw_lock *rw_lock);
 
 void
-destroy_rw_lock(struct rw_lock *rw_lock);
+rw_lock_destroy(struct rw_lock *rw_lock);
 
 #endif

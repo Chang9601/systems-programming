@@ -129,7 +129,7 @@ send_msg(char *addr, uint32_t port, char *msg, uint32_t msg_len)
   in.sin_port = port;
 
   host = (struct hostent *)gethostbyname(addr);
-  /* h_addr은 hostent 구조체의 필드로, h_addr_list의 첫 번째 IP 주소를 가진다. */
+  /* h_addr은 hostent 구조체의 필드로 h_addr_list의 첫 번째 IP 주소를 가진다. */
   in.sin_addr = *((struct in_addr *)host->h_addr);
 
   if ((sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {

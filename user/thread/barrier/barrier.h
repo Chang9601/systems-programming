@@ -22,9 +22,9 @@ void
 thr_barrier_wait(struct thr_barrier *barrier);
 
 void
-thr_barrier_destroy(struct thr_barrier *barrier);
+thr_barrier_print(struct thr_barrier *barrier);
 
 void
-thr_barrier_print(struct thr_barrier *barrier);
+thr_barrier_destroy(struct thr_barrier *barrier);
 
 #endif
